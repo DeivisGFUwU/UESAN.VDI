@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.13.35931.197 d17.13
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UESAN.VDI.API", "UESAN.VDI.API\UESAN.VDI.API.csproj", "{4FAFBFB1-7216-4E46-9781-2543997EA2A3}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4FAFBFB1-7216-4E46-9781-2543997EA2A3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4FAFBFB1-7216-4E46-9781-2543997EA2A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4FAFBFB1-7216-4E46-9781-2543997EA2A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4FAFBFB1-7216-4E46-9781-2543997EA2A3}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C4D5232E-2E63-4F8C-82F5-B40133E9FE77}
+	EndGlobalSection
+EndGlobal
