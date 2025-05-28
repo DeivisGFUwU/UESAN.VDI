@@ -15,6 +15,8 @@ public partial class AutoresPublicacion
 
     public decimal? PorcentajeParticipacion { get; set; }
 
+    public bool Activo { get; set; } = true;
+
     public virtual Profesores Profesor { get; set; } = null!;
 
     public virtual Publicaciones Publicacion { get; set; } = null!;

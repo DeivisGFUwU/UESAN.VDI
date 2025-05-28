@@ -13,7 +13,7 @@ public partial class Usuarios
 
     public string Correo { get; set; } = null!;
 
-    public byte[] ClaveHash { get; set; } = null!;
+    public string ClaveHash { get; set; } = null!;
 
     public int RoleId { get; set; }
 

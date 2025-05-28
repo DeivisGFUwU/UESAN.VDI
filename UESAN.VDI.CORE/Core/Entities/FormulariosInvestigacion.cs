@@ -27,6 +27,8 @@ public partial class FormulariosInvestigacion
 
     public DateTime? FechaRegistro { get; set; }
 
+    public bool Activo { get; set; } = true;
+
     public virtual Revistas? IssnNavigation { get; set; }
 
     public virtual Proyectos Proyecto { get; set; } = null!;

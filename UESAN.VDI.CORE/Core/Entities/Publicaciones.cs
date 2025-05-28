@@ -21,6 +21,8 @@ public partial class Publicaciones
 
     public string? Doi { get; set; }
 
+    public bool Activo { get; set; } = true;
+
     public virtual ICollection<AutoresPublicacion> AutoresPublicacion { get; set; } = new List<AutoresPublicacion>();
 
     public virtual Revistas IssnNavigation { get; set; } = null!;

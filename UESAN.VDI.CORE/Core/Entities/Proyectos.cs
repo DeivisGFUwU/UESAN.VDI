@@ -23,6 +23,8 @@ public partial class Proyectos
 
     public int? LineaId { get; set; }
 
+    public bool Activo { get; set; } = true;
+
     public virtual Usuarios AdminCreaNavigation { get; set; } = null!;
 
     public virtual ICollection<AsignacionProyecto> AsignacionProyecto { get; set; } = new List<AsignacionProyecto>();

@@ -13,6 +13,8 @@ public partial class SesionChat
 
     public DateTime? FechaFin { get; set; }
 
+    public bool Activo { get; set; } = true;
+
     public virtual ICollection<MensajeChat> MensajeChat { get; set; } = new List<MensajeChat>();
 
     public virtual Usuarios Usuario { get; set; } = null!;

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using UESAN.VDI.CORE.Core.Entities;
 
-namespace UESAN.VDI.CORE.Infrastructure.Data;
+namespace UESAN.VDI.CORE.Infrastructure.data;
 
 public partial class VdiDbContext : DbContext
 {
@@ -48,7 +48,7 @@ public partial class VdiDbContext : DbContext
     {
         modelBuilder.Entity<AsignacionProyecto>(entity =>
         {
-            entity.HasKey(e => e.AsignacionId).HasName("PK__Asignaci__D82B5BB7B6FC4E0D");
+            entity.HasKey(e => e.AsignacionId).HasName("PK__Asignaci__D82B5BB704B17ECF");
 
             entity.Property(e => e.AsignacionId).HasColumnName("AsignacionID");
             entity.Property(e => e.FechaAsignacion)
@@ -71,7 +71,7 @@ public partial class VdiDbContext : DbContext
 
         modelBuilder.Entity<AutoresPublicacion>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__AutoresP__3214EC27F2A03D7E");
+            entity.HasKey(e => e.Id).HasName("PK__AutoresP__3214EC27F734512A");
 
             entity.Property(e => e.Id).HasColumnName("ID");
             entity.Property(e => e.PorcentajeParticipacion).HasColumnType("decimal(5, 2)");
@@ -91,7 +91,7 @@ public partial class VdiDbContext : DbContext
 
         modelBuilder.Entity<FormulariosInvestigacion>(entity =>
         {
-            entity.HasKey(e => e.FormularioId).HasName("PK__Formular__02C09CF3B6ED3198");
+            entity.HasKey(e => e.FormularioId).HasName("PK__Formular__02C09CF3568C2D43");
 
             entity.Property(e => e.FormularioId).HasColumnName("FormularioID");
             entity.Property(e => e.Doi)
@@ -123,9 +123,9 @@ public partial class VdiDbContext : DbContext
 
         modelBuilder.Entity<LineasInvestigacion>(entity =>
         {
-            entity.HasKey(e => e.LineaId).HasName("PK__LineasIn__78106D114EFADBF7");
+            entity.HasKey(e => e.LineaId).HasName("PK__LineasIn__78106D115E060D82");
 
-            entity.HasIndex(e => e.Nombre, "UQ__LineasIn__75E3EFCF4D241DF4").IsUnique();
+            entity.HasIndex(e => e.Nombre, "UQ__LineasIn__75E3EFCFFA200D43").IsUnique();
 
             entity.Property(e => e.LineaId).HasColumnName("LineaID");
             entity.Property(e => e.Nombre).HasMaxLength(200);
@@ -133,7 +133,7 @@ public partial class VdiDbContext : DbContext
 
         modelBuilder.Entity<MensajeChat>(entity =>
         {
-            entity.HasKey(e => e.MensajeId).HasName("PK__MensajeC__FEA0557F3519196A");
+            entity.HasKey(e => e.MensajeId).HasName("PK__MensajeC__FEA0557F8C9620DE");
 
             entity.Property(e => e.MensajeId).HasColumnName("MensajeID");
             entity.Property(e => e.FechaEnvio)
@@ -150,9 +150,9 @@ public partial class VdiDbContext : DbContext
 
         modelBuilder.Entity<Profesores>(entity =>
         {
-            entity.HasKey(e => e.ProfesorId).HasName("PK__Profesor__4DF3F0286B3C7D61");
+            entity.HasKey(e => e.ProfesorId).HasName("PK__Profesor__4DF3F0280444D2B7");
 
-            entity.HasIndex(e => e.UsuarioId, "UQ__Profesor__2B3DE7999327F7C9").IsUnique();
+            entity.HasIndex(e => e.UsuarioId, "UQ__Profesor__2B3DE799DF0DAC66").IsUnique();
 
             entity.Property(e => e.ProfesorId).HasColumnName("ProfesorID");
             entity.Property(e => e.Activo).HasDefaultValue(true);
@@ -169,7 +169,7 @@ public partial class VdiDbContext : DbContext
 
         modelBuilder.Entity<Proyectos>(entity =>
         {
-            entity.HasKey(e => e.ProyectoId).HasName("PK__Proyecto__CF241D45C22CEB8A");
+            entity.HasKey(e => e.ProyectoId).HasName("PK__Proyecto__CF241D454859FB8B");
 
             entity.HasIndex(e => e.Estatus, "IDX_Proyectos_Estatus");
 
@@ -192,7 +192,7 @@ public partial class VdiDbContext : DbContext
 
         modelBuilder.Entity<Publicaciones>(entity =>
         {
-            entity.HasKey(e => e.PublicacionId).HasName("PK__Publicac__10DF15AAEB5DAF64");
+            entity.HasKey(e => e.PublicacionId).HasName("PK__Publicac__10DF15AA6654D0D4");
 
             entity.HasIndex(e => e.FechaPublicacion, "IDX_Publicaciones_Fecha");
 
@@ -221,23 +221,106 @@ public partial class VdiDbContext : DbContext
 
         modelBuilder.Entity<Revistas>(entity =>
         {
-            entity.HasKey(e => e.Issn).HasName("PK__Revistas__447D3E97757EDED9");
+            entity.HasKey(e => e.Issn).HasName("PK__Revistas__447D3E97677D8CFA");
 
             entity.Property(e => e.Issn)
                 .HasMaxLength(20)
                 .HasColumnName("ISSN");
+            entity.Property(e => e.Abdc)
+                .HasMaxLength(10)
+                .HasColumnName("ABDC");
+            entity.Property(e => e.AbdcExiste)
+                .HasDefaultValue(false)
+                .HasColumnName("ABDC_Existe");
+            entity.Property(e => e.AbdcS)
+                .HasMaxLength(10)
+                .HasColumnName("ABDC_S");
             entity.Property(e => e.Activa).HasDefaultValue(true);
+            entity.Property(e => e.Ajg4Star)
+                .HasDefaultValue(false)
+                .HasColumnName("AJG_4_Star");
+            entity.Property(e => e.AjgNivel)
+                .HasMaxLength(10)
+                .HasColumnName("AJG_NIVEL");
+            entity.Property(e => e.AjgS)
+                .HasMaxLength(10)
+                .HasColumnName("AJG_S");
+            entity.Property(e => e.BeallsList)
+                .HasDefaultValue(false)
+                .HasColumnName("BEALLS_LIST");
             entity.Property(e => e.Categoria).HasMaxLength(10);
+            entity.Property(e => e.Cnrs)
+                .HasMaxLength(10)
+                .HasColumnName("CNRS");
+            entity.Property(e => e.CnrsExiste)
+                .HasDefaultValue(false)
+                .HasColumnName("CNRS_Existe");
+            entity.Property(e => e.CnrsS)
+                .HasMaxLength(10)
+                .HasColumnName("CNRS_S");
             entity.Property(e => e.Cuartil).HasMaxLength(5);
             entity.Property(e => e.EsNueva).HasDefaultValue(true);
+            entity.Property(e => e.EsciQ)
+                .HasMaxLength(10)
+                .HasColumnName("ESCI_Q");
+            entity.Property(e => e.EsciScieloSinScopus)
+                .HasDefaultValue(false)
+                .HasColumnName("ESCI_Scielo_Sin_Scopus");
+            entity.Property(e => e.FactorImpacto).HasColumnType("decimal(5, 2)");
+            entity.Property(e => e.Insights)
+                .HasDefaultValue(false)
+                .HasColumnName("INSIGHTS");
+            entity.Property(e => e.LatamSinEsciExiste)
+                .HasDefaultValue(false)
+                .HasColumnName("Latam_Sin_ESCI_Existe");
+            entity.Property(e => e.Mdpi)
+                .HasDefaultValue(false)
+                .HasColumnName("MDPI");
+            entity.Property(e => e.MultidisciplinaryScopus)
+                .HasDefaultValue(false)
+                .HasColumnName("Multidisciplinary_Scopus");
+            entity.Property(e => e.MultidisciplinaryWoS)
+                .HasDefaultValue(false)
+                .HasColumnName("Multidisciplinary_WoS");
+            entity.Property(e => e.MultidisciplinaryWoSScopus)
+                .HasDefaultValue(false)
+                .HasColumnName("Multidisciplinary_WoS_Scopus");
+            entity.Property(e => e.Multiple).HasDefaultValue(false);
+            entity.Property(e => e.Pais).HasMaxLength(100);
+            entity.Property(e => e.ScopusExiste)
+                .HasDefaultValue(false)
+                .HasColumnName("Scopus_Existe");
+            entity.Property(e => e.SoloEnUnaLista).HasDefaultValue(false);
+            entity.Property(e => e.SoloScieloExiste).HasDefaultValue(false);
             entity.Property(e => e.Titulo).HasMaxLength(200);
+            entity.Property(e => e.Top50)
+                .HasDefaultValue(false)
+                .HasColumnName("TOP50");
+            entity.Property(e => e.WoSEsci)
+                .HasDefaultValue(false)
+                .HasColumnName("WoS_ESCI");
+            entity.Property(e => e.WoSEsciExiste)
+                .HasDefaultValue(false)
+                .HasColumnName("WoS_ESCI_Existe");
+            entity.Property(e => e.WoSLatam)
+                .HasDefaultValue(false)
+                .HasColumnName("WoS_LATAM");
+            entity.Property(e => e.WoSQ)
+                .HasMaxLength(10)
+                .HasColumnName("WoS_Q");
+            entity.Property(e => e.WoSS)
+                .HasMaxLength(10)
+                .HasColumnName("WoS_S");
+            entity.Property(e => e.WoSTopExiste)
+                .HasDefaultValue(false)
+                .HasColumnName("WoS_Top_Existe");
         });
 
         modelBuilder.Entity<Roles>(entity =>
         {
-            entity.HasKey(e => e.RoleId).HasName("PK__Roles__8AFACE3A82000EBF");
+            entity.HasKey(e => e.RoleId).HasName("PK__Roles__8AFACE3A2F15A25C");
 
-            entity.HasIndex(e => e.Nombre, "UQ__Roles__75E3EFCFEC36E864").IsUnique();
+            entity.HasIndex(e => e.Nombre, "UQ__Roles__75E3EFCFC1F77A14").IsUnique();
 
             entity.Property(e => e.RoleId).HasColumnName("RoleID");
             entity.Property(e => e.Nombre).HasMaxLength(50);
@@ -245,7 +328,7 @@ public partial class VdiDbContext : DbContext
 
         modelBuilder.Entity<SesionChat>(entity =>
         {
-            entity.HasKey(e => e.SesionId).HasName("PK__SesionCh__52FD7C06E6A84CF2");
+            entity.HasKey(e => e.SesionId).HasName("PK__SesionCh__52FD7C06D9EB19E8");
 
             entity.Property(e => e.SesionId).HasColumnName("SesionID");
             entity.Property(e => e.FechaFin).HasColumnType("datetime");
@@ -262,11 +345,11 @@ public partial class VdiDbContext : DbContext
 
         modelBuilder.Entity<Usuarios>(entity =>
         {
-            entity.HasKey(e => e.UsuarioId).HasName("PK__Usuarios__2B3DE798B0151799");
+            entity.HasKey(e => e.UsuarioId).HasName("PK__Usuarios__2B3DE798368D46F8");
 
             entity.HasIndex(e => e.Correo, "IDX_Usuarios_Correo");
 
-            entity.HasIndex(e => e.Correo, "UQ__Usuarios__60695A197AF42C3B").IsUnique();
+            entity.HasIndex(e => e.Correo, "UQ__Usuarios__60695A19E4DD0AB4").IsUnique();
 
             entity.Property(e => e.UsuarioId).HasColumnName("UsuarioID");
             entity.Property(e => e.Activo).HasDefaultValue(true);

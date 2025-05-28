@@ -15,5 +15,7 @@ public partial class MensajeChat
 
     public DateTime FechaEnvio { get; set; }
 
+    public bool Activo { get; set; } = true;
+
     public virtual SesionChat Sesion { get; set; } = null!;
 }
