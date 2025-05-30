@@ -18,14 +18,16 @@ namespace UESAN.VDI.API.Controllers
             _profesoresService = profesoresService;
         }
 
+        // Get all (/Profesores)
         [HttpGet]
-        [RoleAuthorize(RoleHelper.ADMIN_ROLE, RoleHelper.PROFESOR_ROLE)]
+        [RoleAuthorize(RoleHelper.ADMIN_ROLE)]
         public async Task<IActionResult> GetAllActivos()
         {
             var result = await _profesoresService.GetAllActivosAsync();
             return Ok(result);
         }
 
+        // Get all (/Profesores/2)
         [HttpGet("{id}")]
         [RoleAuthorize(RoleHelper.ADMIN_ROLE, RoleHelper.PROFESOR_ROLE)]
         public async Task<IActionResult> GetById(int id)
@@ -36,6 +38,7 @@ namespace UESAN.VDI.API.Controllers
             return Ok(result);
         }
 
+        // Post (/Profesores)
         [HttpPost]
         [RoleAuthorize(RoleHelper.ADMIN_ROLE)]
         public async Task<IActionResult> Create([FromBody] ProfesorDTO dto)
@@ -44,6 +47,7 @@ namespace UESAN.VDI.API.Controllers
             return CreatedAtAction(nameof(GetById), new { id }, dto);
         }
 
+        // Put (/Profesores/5)
         [HttpPut("{id}")]
         [RoleAuthorize(RoleHelper.ADMIN_ROLE)]
         public async Task<IActionResult> Update(int id, [FromBody] ProfesorDTO dto)
@@ -54,6 +58,7 @@ namespace UESAN.VDI.API.Controllers
             return NoContent();
         }
 
+        // Soft Delete (/Profesores/5)
         [HttpDelete("{id}")]
         [RoleAuthorize(RoleHelper.ADMIN_ROLE)]
         public async Task<IActionResult> Delete(int id)

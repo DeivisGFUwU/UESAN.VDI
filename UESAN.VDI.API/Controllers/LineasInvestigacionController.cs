@@ -18,6 +18,7 @@ namespace UESAN.VDI.API.Controllers
             _service = service;
         }
 
+        // Get all (/LineasInvestigacion)
         [HttpGet]
         [RoleAuthorize(RoleHelper.ADMIN_ROLE, RoleHelper.PROFESOR_ROLE)]
         public async Task<IActionResult> GetAll()
@@ -26,6 +27,7 @@ namespace UESAN.VDI.API.Controllers
             return Ok(result);
         }
 
+        // Get by ID ( /LineasInvestigacion/4)
         [HttpGet("{id}")]
         [RoleAuthorize(RoleHelper.ADMIN_ROLE, RoleHelper.PROFESOR_ROLE)]
         public async Task<IActionResult> GetById(int id)
@@ -36,6 +38,7 @@ namespace UESAN.VDI.API.Controllers
             return Ok(result);
         }
 
+        // Post (/LineasInvestigacion)
         [HttpPost]
         [RoleAuthorize(RoleHelper.ADMIN_ROLE)]
         public async Task<IActionResult> Create([FromBody] LineasInvestigacionCreateDTO dto)
@@ -44,6 +47,7 @@ namespace UESAN.VDI.API.Controllers
             return CreatedAtAction(nameof(GetById), new { id }, dto);
         }
 
+        // Put (/LineasInvestigacion)
         [HttpPut]
         [RoleAuthorize(RoleHelper.ADMIN_ROLE)]
         public async Task<IActionResult> Update([FromBody] LineasInvestigacionListDTO dto)
@@ -54,6 +58,7 @@ namespace UESAN.VDI.API.Controllers
             return NoContent();
         }
 
+        // Delete (/LineasInvestigacion/6)
         [HttpDelete("{id}")]
         [RoleAuthorize(RoleHelper.ADMIN_ROLE)]
         public async Task<IActionResult> Delete(int id)
