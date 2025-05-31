@@ -18,17 +18,17 @@ namespace UESAN.VDI.CORE.Infrastructure.Repositories
 
         public async Task<List<AsignacionProyecto>> GetAllAsync()
         {
-            return await _context.AsignacionProyecto.Where(a => a.Activa).ToListAsync();
+            return await _context.AsignacionProyecto.Where(a => a.Activo).ToListAsync();
         }
 
         public async Task<AsignacionProyecto?> GetByIdAsync(int id)
         {
-            return await _context.AsignacionProyecto.FirstOrDefaultAsync(a => a.AsignacionId == id && a.Activa);
+            return await _context.AsignacionProyecto.FirstOrDefaultAsync(a => a.AsignacionId == id && a.Activo);
         }
 
         public async Task<int> CreateAsync(AsignacionProyecto entity)
         {
-            entity.Activa = true;
+            entity.Activo = true;
             _context.AsignacionProyecto.Add(entity);
             await _context.SaveChangesAsync();
             return entity.AsignacionId;
@@ -42,9 +42,9 @@ namespace UESAN.VDI.CORE.Infrastructure.Repositories
 
         public async Task<bool> SoftDeleteAsync(int id)
         {
-            var entity = await _context.AsignacionProyecto.FirstOrDefaultAsync(a => a.AsignacionId == id && a.Activa);
+            var entity = await _context.AsignacionProyecto.FirstOrDefaultAsync(a => a.AsignacionId == id && a.Activo);
             if (entity == null) return false;
-            entity.Activa = false;
+            entity.Activo = false;
             _context.AsignacionProyecto.Update(entity);
             return await _context.SaveChangesAsync() > 0;
         }

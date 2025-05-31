@@ -15,7 +15,7 @@ public partial class AsignacionProyecto
 
     public string? RolEnProyecto { get; set; }
 
-    public bool Activa { get; set; } = true;
+    public bool Activo { get; set; } = true;
 
     public virtual Profesores Profesor { get; set; } = null!;
 

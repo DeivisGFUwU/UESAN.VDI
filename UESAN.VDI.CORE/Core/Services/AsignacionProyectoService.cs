@@ -47,7 +47,7 @@ namespace UESAN.VDI.CORE.Core.Services
                 ProfesorId = dto.ProfesorId,
                 // FechaAsignacion se autogenera en la base de datos
                 RolEnProyecto = dto.RolEnProyecto,
-                Activa = true
+                Activo = true
             };
             return await _repository.CreateAsync(entity);
         }
