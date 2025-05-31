@@ -49,7 +49,7 @@ namespace UESAN.VDI.CORE.Core.Services
                 publicaciones = publicaciones.Where(p => p.FechaPublicacion <= fechaFin.Value).ToList();
             if (userRole == NORMAL_ROLE)
             {
-                publicaciones = publicaciones.Where(p => p.IssnNavigation.Activa).ToList();
+                publicaciones = publicaciones.Where(p => p.IssnNavigation != null && p.IssnNavigation.Activa).ToList();
             }
             else if (userRole == PROFESOR_ROLE && int.TryParse(userId, out int usuarioId))
             {

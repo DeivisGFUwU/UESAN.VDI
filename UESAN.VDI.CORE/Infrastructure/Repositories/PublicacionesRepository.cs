@@ -18,7 +18,10 @@ namespace UESAN.VDI.CORE.Infrastructure.Repositories
 
         public async Task<List<Publicaciones>> GetAllAsync()
         {
-            return await _context.Publicaciones.Where(p => p.Activo).ToListAsync();
+            return await _context.Publicaciones
+                .Include(p => p.IssnNavigation)
+                .Where(p => p.Activo)
+                .ToListAsync();
         }
 
         public async Task<Publicaciones?> GetByIdAsync(int id)
