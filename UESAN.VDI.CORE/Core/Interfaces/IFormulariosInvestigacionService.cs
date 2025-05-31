@@ -8,7 +8,7 @@ namespace UESAN.VDI.CORE.Core.Interfaces
     {
         Task<List<FormularioInvestigacionListDTO>> GetAllAsync();
         Task<FormularioInvestigacionDTO?> GetByIdAsync(int id);
-        Task<int> CreateAsync(FormularioInvestigacionDTO dto);
+        Task<int> CreateAsync(FormularioInvestigacionCreateDTO dto);
         Task<bool> UpdateAsync(int id, FormularioInvestigacionDTO dto);
         Task<bool> SoftDeleteAsync(int id);
     }

@@ -45,7 +45,7 @@ namespace UESAN.VDI.API.Controllers
 
         [HttpPost]
         [RoleAuthorize(RoleHelper.ADMIN_ROLE, RoleHelper.PROFESOR_ROLE)]
-        public async Task<IActionResult> Create([FromBody] PublicacionDTO dto)
+        public async Task<IActionResult> Create([FromBody] PublicacionCreateDTO dto)
         {
             var userRole = User.FindFirst(ClaimTypes.Role)?.Value;
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;

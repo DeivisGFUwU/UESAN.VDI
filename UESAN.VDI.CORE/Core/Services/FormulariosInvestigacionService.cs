@@ -41,12 +41,11 @@ namespace UESAN.VDI.CORE.Core.Services
                 Issn = form.Issn,
                 Doi = form.Doi,
                 Presupuesto = form.Presupuesto,
-                Cronograma = form.Cronograma,
-                FechaRegistro = form.FechaRegistro
+                Cronograma = form.Cronograma
             };
         }
 
-        public async Task<int> CreateAsync(FormularioInvestigacionDTO dto)
+        public async Task<int> CreateAsync(FormularioInvestigacionCreateDTO dto)
         {
             var entity = new FormulariosInvestigacion
             {
@@ -59,7 +58,6 @@ namespace UESAN.VDI.CORE.Core.Services
                 Doi = dto.Doi,
                 Presupuesto = dto.Presupuesto,
                 Cronograma = dto.Cronograma,
-                FechaRegistro = dto.FechaRegistro,
                 Activo = true
             };
             return await _repository.CreateAsync(entity);
@@ -77,7 +75,6 @@ namespace UESAN.VDI.CORE.Core.Services
             entity.Doi = dto.Doi;
             entity.Presupuesto = dto.Presupuesto;
             entity.Cronograma = dto.Cronograma;
-            entity.FechaRegistro = dto.FechaRegistro;
             return await _repository.UpdateAsync(entity);
         }
 

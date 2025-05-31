@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using UESAN.VDI.CORE.Core.DTOs;
 using UESAN.VDI.CORE.Core.Interfaces;
 using UESAN.VDI.CORE.Core.Helpers;
+using System;
 
 namespace UESAN.VDI.API.Controllers
 {
@@ -48,9 +49,11 @@ namespace UESAN.VDI.API.Controllers
 
         [HttpPost("sesiones")]
         [RoleAuthorize(RoleHelper.ADMIN_ROLE, RoleHelper.PROFESOR_ROLE, RoleHelper.NORMAL_ROLE)]
-        public async Task<IActionResult> CreateSesion([FromBody] SesionChatDTO dto)
+        public async Task<IActionResult> CreateSesion([FromBody] SesionChatCreateDTO dto)
         {
-            var id = await _sesionService.CreateAsync(dto);
+            // Asignar UsuarioId y FechaInicio desde el backend
+            var userId = int.Parse(User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value ?? "0");
+            var id = await _sesionService.CreateAsync(userId);
             return Ok(new { SesionId = id });
         }
 
@@ -66,6 +69,9 @@ namespace UESAN.VDI.API.Controllers
         [RoleAuthorize(RoleHelper.ADMIN_ROLE, RoleHelper.PROFESOR_ROLE, RoleHelper.NORMAL_ROLE)]
         public async Task<IActionResult> EnviarMensaje([FromBody] MensajeChatDTO dto)
         {
+            // Asignar Remitente y FechaEnvio desde el backend
+            dto.Remitente = User.Identity?.Name ?? "";
+            dto.FechaEnvio = DateTime.UtcNow;
             var id = await _mensajeService.CreateAsync(dto);
             return Ok(new { MensajeId = id });
         }

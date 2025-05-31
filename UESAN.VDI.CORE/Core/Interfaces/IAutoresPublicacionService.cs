@@ -8,7 +8,7 @@ namespace UESAN.VDI.CORE.Core.Interfaces
     {
         Task<List<AutorPublicacionListDTO>> GetAllAsync();
         Task<AutorPublicacionDTO?> GetByIdAsync(int id);
-        Task<int> CreateAsync(AutorPublicacionDTO dto);
+        Task<int> CreateAsync(AutorPublicacionCreateDTO dto);
         Task<bool> UpdateAsync(int id, AutorPublicacionDTO dto);
     }
 }

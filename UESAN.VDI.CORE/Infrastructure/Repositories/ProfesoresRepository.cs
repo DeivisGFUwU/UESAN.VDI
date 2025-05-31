@@ -26,6 +26,11 @@ namespace UESAN.VDI.CORE.Infrastructure.Repositories
             return await _context.Profesores.FirstOrDefaultAsync(p => p.ProfesorId == id && p.Activo);
         }
 
+        public async Task<Profesores?> GetByUsuarioIdAsync(int usuarioId)
+        {
+            return await _context.Profesores.FirstOrDefaultAsync(p => p.UsuarioId == usuarioId);
+        }
+
         public async Task<int> CreateAsync(Profesores profesor)
         {
             _context.Profesores.Add(profesor);

@@ -8,7 +8,7 @@ namespace UESAN.VDI.CORE.Core.Interfaces
     {
         Task<List<ProfesorListDTO>> GetAllActivosAsync();
         Task<ProfesorDTO?> GetByIdAsync(int id);
-        Task<int> CreateAsync(ProfesorDTO dto);
+        Task<int> CreateAsync(ProfesorCreateDTO dto);
         Task<bool> UpdateAsync(int id, ProfesorDTO dto);
         Task<bool> SoftDeleteAsync(int id);
     }

@@ -108,7 +108,7 @@ namespace UESAN.VDI.CORE.Core.Services
             };
         }
 
-        public async Task<int> CreateAsync(PublicacionDTO dto)
+        public async Task<int> CreateAsync(PublicacionCreateDTO dto)
         {
             var publicacion = new Publicaciones
             {
@@ -121,7 +121,7 @@ namespace UESAN.VDI.CORE.Core.Services
             return await _publicacionesRepository.CreateAsync(publicacion);
         }
 
-        public async Task<int> CreateValidatedAsync(PublicacionDTO dto, string? userRole, string? userId)
+        public async Task<int> CreateValidatedAsync(PublicacionCreateDTO dto, string? userRole, string? userId)
         {
             var profesor = await _profesoresRepository.GetByIdAsync(dto.ProfesorId);
             var revista = await _revistasRepository.GetByIssnAsync(dto.Issn);

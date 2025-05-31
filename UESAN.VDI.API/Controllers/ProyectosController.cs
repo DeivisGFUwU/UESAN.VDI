@@ -38,16 +38,24 @@ namespace UESAN.VDI.API.Controllers
 
         [HttpPost]
         [RoleAuthorize(RoleHelper.ADMIN_ROLE)]
-        public async Task<IActionResult> Create([FromBody] ProyectoDTO dto)
+        public async Task<IActionResult> Create([FromBody] ProyectoCreateDTO dto)
         {
+            // No asignar FechaFin, ya no existe en el DTO
             var id = await _proyectosService.CreateAsync(dto);
             return CreatedAtAction(nameof(GetById), new { id }, dto);
         }
 
         [HttpPut("{id}")]
-        [RoleAuthorize(RoleHelper.ADMIN_ROLE)]
+        [RoleAuthorize(RoleHelper.ADMIN_ROLE, RoleHelper.PROFESOR_ROLE)]
         public async Task<IActionResult> Update(int id, [FromBody] ProyectoDTO dto)
         {
+            // Solo permitir que el profesor asigne FechaFin
+            var userRole = User.FindFirst(System.Security.Claims.ClaimTypes.Role)?.Value;
+            if (!RoleHelper.IsProfesor(userRole))
+            {
+                // Si no es profesor, no permitir modificar FechaFin
+                dto.FechaFin = null;
+            }
             var updated = await _proyectosService.UpdateAsync(id, dto);
             if (!updated)
                 return NotFound();

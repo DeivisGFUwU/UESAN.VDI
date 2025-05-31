@@ -10,6 +10,11 @@ namespace UESAN.VDI.CORE.Core.DTOs
         public DateTime? FechaFin { get; set; }
     }
 
+    public class SesionChatCreateDTO
+    {
+        // No incluir UsuarioId ni fechas, se asignan en backend
+    }
+
     public class SesionChatListDTO
     {
         public int SesionId { get; set; }

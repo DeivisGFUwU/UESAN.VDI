@@ -28,6 +28,14 @@ namespace UESAN.VDI.API.Controllers
             return Ok(result);
         }
 
+        [HttpPost]
+        [RoleAuthorize(RoleHelper.ADMIN_ROLE)]
+        public async Task<IActionResult> Create([FromBody] UsuarioCreateDTO dto)
+        {
+            var id = await _usuariosService.CreateAsync(dto);
+            return CreatedAtAction(nameof(GetById), new { id }, dto);
+        }
+
         [HttpGet]
         [RoleAuthorize(RoleHelper.ADMIN_ROLE)]
         public async Task<IActionResult> GetAllActivos()
@@ -44,6 +52,26 @@ namespace UESAN.VDI.API.Controllers
             if (result == null)
                 return NotFound();
             return Ok(result);
+        }
+
+        [HttpPost("reactivar/{id}")]
+        [RoleAuthorize(RoleHelper.ADMIN_ROLE)]
+        public async Task<IActionResult> Reactivate(int id)
+        {
+            var reactivated = await _usuariosService.ReactivateAsync(id);
+            if (!reactivated)
+                return NotFound();
+            return NoContent();
+        }
+
+        [HttpDelete("{id}")]
+        [RoleAuthorize(RoleHelper.ADMIN_ROLE)]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var deleted = await _usuariosService.SoftDeleteAsync(id);
+            if (!deleted)
+                return NotFound();
+            return NoContent();
         }
     }
 }

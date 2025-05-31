@@ -22,8 +22,11 @@ namespace UESAN.VDI.CORE.Infrastructure.Repositories
                 .FirstOrDefaultAsync(u => u.Correo == correo && u.Activo);
         }
 
-        public async Task<Usuarios?> GetByIdAsync(int id)
+        public async Task<Usuarios?> GetByIdAsync(int id, bool includeInactive = false)
         {
+            if (includeInactive)
+                return await _context.Usuarios.Include(u => u.Role)
+                    .FirstOrDefaultAsync(u => u.UsuarioId == id);
             return await _context.Usuarios.Include(u => u.Role)
                 .FirstOrDefaultAsync(u => u.UsuarioId == id && u.Activo);
         }
@@ -36,6 +39,28 @@ namespace UESAN.VDI.CORE.Infrastructure.Repositories
         public async Task<List<Usuarios>> GetAllAsync()
         {
             return await _context.Usuarios.ToListAsync();
+        }
+
+        public async Task<bool> UpdateAsync(Usuarios usuario)
+        {
+            _context.Usuarios.Update(usuario);
+            return await _context.SaveChangesAsync() > 0;
+        }
+
+        public async Task<bool> SoftDeleteAsync(int usuarioId)
+        {
+            var usuario = await _context.Usuarios.FirstOrDefaultAsync(u => u.UsuarioId == usuarioId && u.Activo);
+            if (usuario == null) return false;
+            usuario.Activo = false;
+            _context.Usuarios.Update(usuario);
+            return await _context.SaveChangesAsync() > 0;
+        }
+
+        public async Task<int> CreateAsync(Usuarios usuario)
+        {
+            _context.Usuarios.Add(usuario);
+            await _context.SaveChangesAsync();
+            return usuario.UsuarioId;
         }
     }
 }

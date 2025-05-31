@@ -9,6 +9,6 @@ namespace UESAN.VDI.CORE.Core.Interfaces
         Task<List<SesionChatListDTO>> GetAllAsync();
         Task<SesionChatDTO?> GetByIdAsync(int id);
         Task<List<SesionChatListDTO>> GetByUsuarioIdAsync(int usuarioId);
-        Task<int> CreateAsync(SesionChatDTO dto);
+        Task<int> CreateAsync(int usuarioId);
     }
 }

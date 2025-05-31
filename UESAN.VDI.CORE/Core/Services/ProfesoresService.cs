@@ -40,7 +40,7 @@ namespace UESAN.VDI.CORE.Core.Services
             };
         }
 
-        public async Task<int> CreateAsync(ProfesorDTO dto)
+        public async Task<int> CreateAsync(ProfesorCreateDTO dto)
         {
             var profesor = new Profesores
             {

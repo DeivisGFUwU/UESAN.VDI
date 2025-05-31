@@ -38,8 +38,9 @@ namespace UESAN.VDI.API.Controllers
 
         [HttpPost]
         [RoleAuthorize(RoleHelper.ADMIN_ROLE, RoleHelper.PROFESOR_ROLE)]
-        public async Task<IActionResult> Create([FromBody] FormularioInvestigacionDTO dto)
+        public async Task<IActionResult> Create([FromBody] FormularioInvestigacionCreateDTO dto)
         {
+            // FechaRegistro no se recibe ni se asigna, lo maneja la BD
             var id = await _service.CreateAsync(dto);
             return CreatedAtAction(nameof(GetById), new { id }, dto);
         }
@@ -48,6 +49,7 @@ namespace UESAN.VDI.API.Controllers
         [RoleAuthorize(RoleHelper.ADMIN_ROLE, RoleHelper.PROFESOR_ROLE)]
         public async Task<IActionResult> Update(int id, [FromBody] FormularioInvestigacionDTO dto)
         {
+            // FechaRegistro no se actualiza, lo maneja la BD
             var updated = await _service.UpdateAsync(id, dto);
             if (!updated)
                 return NotFound();

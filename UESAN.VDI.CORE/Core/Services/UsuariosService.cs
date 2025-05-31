@@ -12,11 +12,13 @@ namespace UESAN.VDI.CORE.Core.Services
     public class UsuariosService : IUsuariosService
     {
         private readonly IUsuariosRepository _usuariosRepository;
+        private readonly IProfesoresRepository _profesoresRepository;
         private readonly IJWTService _jwtService;
 
-        public UsuariosService(IUsuariosRepository usuariosRepository, IJWTService jwtService)
+        public UsuariosService(IUsuariosRepository usuariosRepository, IProfesoresRepository profesoresRepository, IJWTService jwtService)
         {
             _usuariosRepository = usuariosRepository;
+            _profesoresRepository = profesoresRepository;
             _jwtService = jwtService;
         }
 
@@ -103,6 +105,55 @@ namespace UESAN.VDI.CORE.Core.Services
                 RoleId = 0, // No exponer rol por defecto
                 CorreoVerificado = user.CorreoVerificado
             };
+        }
+
+        public async Task<bool> ReactivateAsync(int usuarioId)
+        {
+            // Reactivar usuario
+            var user = await _usuariosRepository.GetByIdAsync(usuarioId, includeInactive: true);
+            if (user == null || user.Activo) return false;
+            user.Activo = true;
+            await _usuariosRepository.UpdateAsync(user);
+
+            // Reactivar profesor si existe
+            var profesor = await _profesoresRepository.GetByUsuarioIdAsync(usuarioId);
+            if (profesor != null && !profesor.Activo)
+            {
+                profesor.Activo = true;
+                await _profesoresRepository.UpdateAsync(profesor);
+            }
+            return true;
+        }
+
+        public async Task<bool> SoftDeleteAsync(int usuarioId)
+        {
+            // Soft delete usuario
+            var deleted = await _usuariosRepository.SoftDeleteAsync(usuarioId);
+            if (!deleted) return false;
+
+            // Soft delete profesor vinculado
+            var profesor = await _profesoresRepository.GetByUsuarioIdAsync(usuarioId);
+            if (profesor != null && profesor.Activo)
+            {
+                profesor.Activo = false;
+                await _profesoresRepository.UpdateAsync(profesor);
+            }
+            return true;
+        }
+
+        public async Task<int> CreateAsync(UsuarioCreateDTO dto)
+        {
+            var usuario = new Usuarios
+            {
+                Nombre = dto.Nombre,
+                Apellido = dto.Apellido,
+                Correo = dto.Correo,
+                RoleId = dto.RoleId,
+                CorreoVerificado = false,
+                ClaveHash = BCrypt.Net.BCrypt.HashPassword(dto.Password),
+                Activo = true
+            };
+            return await _usuariosRepository.CreateAsync(usuario);
         }
     }
 }

@@ -8,7 +8,7 @@ namespace UESAN.VDI.CORE.Core.Interfaces
     {
         Task<List<AsignacionProyectoListDTO>> GetAllAsync();
         Task<AsignacionProyectoDTO?> GetByIdAsync(int id);
-        Task<int> CreateAsync(AsignacionProyectoDTO dto);
+        Task<int> CreateAsync(AsignacionProyectoCreateDTO dto);
         Task<bool> UpdateAsync(int id, AsignacionProyectoDTO dto);
         Task<bool> SoftDeleteAsync(int id);
     }

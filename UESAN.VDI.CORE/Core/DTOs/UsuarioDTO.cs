@@ -35,4 +35,13 @@ namespace UESAN.VDI.CORE.Core.DTOs
         public int RoleId { get; set; }
         public string Jwt { get; set; } = null!;
     }
+
+    public class UsuarioCreateDTO
+    {
+        public string Nombre { get; set; } = null!;
+        public string Apellido { get; set; } = null!;
+        public string Correo { get; set; } = null!;
+        public int RoleId { get; set; }
+        public string Password { get; set; } = null!;
+    }
 }

@@ -39,7 +39,7 @@ namespace UESAN.VDI.CORE.Core.Services
             };
         }
 
-        public async Task<int> CreateAsync(AutorPublicacionDTO dto)
+        public async Task<int> CreateAsync(AutorPublicacionCreateDTO dto)
         {
             var entity = new AutoresPublicacion
             {

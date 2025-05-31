@@ -41,7 +41,7 @@ namespace UESAN.VDI.API.Controllers
         // Post (/Profesores)
         [HttpPost]
         [RoleAuthorize(RoleHelper.ADMIN_ROLE)]
-        public async Task<IActionResult> Create([FromBody] ProfesorDTO dto)
+        public async Task<IActionResult> Create([FromBody] ProfesorCreateDTO dto)
         {
             var id = await _profesoresService.CreateAsync(dto);
             return CreatedAtAction(nameof(GetById), new { id }, dto);

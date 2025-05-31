@@ -39,13 +39,13 @@ namespace UESAN.VDI.CORE.Core.Services
             };
         }
 
-        public async Task<int> CreateAsync(AsignacionProyectoDTO dto)
+        public async Task<int> CreateAsync(AsignacionProyectoCreateDTO dto)
         {
             var entity = new AsignacionProyecto
             {
                 ProyectoId = dto.ProyectoId,
                 ProfesorId = dto.ProfesorId,
-                FechaAsignacion = dto.FechaAsignacion,
+                // FechaAsignacion se autogenera en la base de datos
                 RolEnProyecto = dto.RolEnProyecto,
                 Activa = true
             };

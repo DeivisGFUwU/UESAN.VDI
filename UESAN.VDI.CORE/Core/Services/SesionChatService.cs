@@ -48,13 +48,12 @@ namespace UESAN.VDI.CORE.Core.Services
             }).ToList();
         }
 
-        public async Task<int> CreateAsync(SesionChatDTO dto)
+        public async Task<int> CreateAsync(int usuarioId)
         {
             var sesion = new SesionChat
             {
-                UsuarioId = dto.UsuarioId,
-                FechaInicio = dto.FechaInicio,
-                FechaFin = dto.FechaFin
+                UsuarioId = usuarioId,
+                // FechaInicio y FechaFin se autogeneran en la base de datos
             };
             return await _repository.CreateAsync(sesion);
         }

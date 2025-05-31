@@ -8,6 +8,7 @@ namespace UESAN.VDI.CORE.Core.Interfaces
     {
         Task<List<Profesores>> GetAllActivosAsync();
         Task<Profesores?> GetByIdAsync(int id);
+        Task<Profesores?> GetByUsuarioIdAsync(int usuarioId);
         Task<int> CreateAsync(Profesores profesor);
         Task<bool> UpdateAsync(Profesores profesor);
     }

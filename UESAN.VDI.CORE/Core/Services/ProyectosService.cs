@@ -43,14 +43,13 @@ namespace UESAN.VDI.CORE.Core.Services
             };
         }
 
-        public async Task<int> CreateAsync(ProyectoDTO dto)
+        public async Task<int> CreateAsync(ProyectoCreateDTO dto)
         {
             var proyecto = new Proyectos
             {
                 Titulo = dto.Titulo,
                 Descripcion = dto.Descripcion,
                 FechaInicio = dto.FechaInicio,
-                FechaFin = dto.FechaFin,
                 Estatus = dto.Estatus,
                 Recomendado = dto.Recomendado,
                 LineaId = dto.LineaId
@@ -65,7 +64,10 @@ namespace UESAN.VDI.CORE.Core.Services
             proyecto.Titulo = dto.Titulo;
             proyecto.Descripcion = dto.Descripcion;
             proyecto.FechaInicio = dto.FechaInicio;
-            proyecto.FechaFin = dto.FechaFin;
+            // Solo permitir modificar FechaFin si el DTO la trae y el usuario es profesor
+            // (La lógica de rol debe implementarse en el controlador, aquí solo se respeta el valor)
+            if (dto.FechaFin != null)
+                proyecto.FechaFin = dto.FechaFin;
             proyecto.Estatus = dto.Estatus;
             proyecto.Recomendado = dto.Recomendado;
             proyecto.LineaId = dto.LineaId;
@@ -76,10 +78,8 @@ namespace UESAN.VDI.CORE.Core.Services
         {
             var proyecto = await _proyectosRepository.GetByIdAsync(id);
             if (proyecto == null) return false;
-            // Si hay un campo Activo/IsActive, usarlo aquí. Si no, eliminar físicamente o ignorar.
-            // proyecto.Activo = false;
-            // return await _proyectosRepository.UpdateAsync(proyecto);
-            return false;
+            proyecto.Activo = false;
+            return await _proyectosRepository.UpdateAsync(proyecto);
         }
     }
 }
