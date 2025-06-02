@@ -88,8 +88,11 @@ namespace UESAN.VDI.CORE.Core.Services
             var publicacion = await _publicacionesRepository.GetByIdAsync(id);
             if (publicacion == null)
                 return null;
-            if (userRole == NORMAL_ROLE && !publicacion.IssnNavigation.Activa)
+
+            // Validación para evitar NullReferenceException
+            if (userRole == NORMAL_ROLE && (publicacion.IssnNavigation == null || !publicacion.IssnNavigation.Activa))
                 return null;
+
             if (userRole == PROFESOR_ROLE && int.TryParse(userId, out int usuarioId))
             {
                 var profesor = await _profesoresRepository.GetAllActivosAsync();

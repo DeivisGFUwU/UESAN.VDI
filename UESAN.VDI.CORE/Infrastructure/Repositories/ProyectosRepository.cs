@@ -31,6 +31,7 @@ namespace UESAN.VDI.CORE.Infrastructure.Repositories
             proyecto.Activo = true;
             _context.Proyectos.Add(proyecto);
             await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
             return proyecto.ProyectoId;
         }
 

@@ -4,6 +4,8 @@ using System.Threading.Tasks;
 using UESAN.VDI.CORE.Core.DTOs;
 using UESAN.VDI.CORE.Core.Interfaces;
 using UESAN.VDI.CORE.Core.Helpers;
+using UESAN.VDI.CORE.Core.Entities;
+using UESAN.VDI.CORE.Infrastructure.Repositories;
 
 namespace UESAN.VDI.API.Controllers
 {
@@ -13,9 +15,12 @@ namespace UESAN.VDI.API.Controllers
     public class ProyectosController : ControllerBase
     {
         private readonly IProyectosService _proyectosService;
-        public ProyectosController(IProyectosService proyectosService)
+        private readonly IProyectosRepository _proyectosRepository; // Fix: Change type from object to IProyectosRepository
+
+        public ProyectosController(IProyectosService proyectosService, IProyectosRepository proyectosRepository) // Fix: Add IProyectosRepository to constructor
         {
             _proyectosService = proyectosService;
+            _proyectosRepository = proyectosRepository; // Fix: Initialize _proyectosRepository
         }
 
         [HttpGet]
@@ -40,8 +45,29 @@ namespace UESAN.VDI.API.Controllers
         [RoleAuthorize(RoleHelper.ADMIN_ROLE)]
         public async Task<IActionResult> Create([FromBody] ProyectoCreateDTO dto)
         {
-            // No asignar FechaFin, ya no existe en el DTO
-            var id = await _proyectosService.CreateAsync(dto);
+            var userIdClaim = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)
+                ?? User.FindFirst("sub")
+                ?? User.FindFirst("id")
+                ?? User.FindFirst("nameid")
+                ?? User.FindFirst("UserId"); // <-- Aquí
+
+            if (userIdClaim == null)
+                return Unauthorized("No se pudo identificar al usuario.");
+
+            int usuarioId = int.Parse(userIdClaim.Value);
+
+            var proyecto = new Proyectos
+            {
+                Titulo = dto.Titulo,
+                Descripcion = dto.Descripcion,
+                FechaInicio = dto.FechaInicio,
+                Estatus = dto.Estatus,
+                Recomendado = dto.Recomendado,
+                LineaId = dto.LineaId,
+                AdminCrea = usuarioId
+            };
+
+            var id = await _proyectosRepository.CreateAsync(proyecto);
             return CreatedAtAction(nameof(GetById), new { id }, dto);
         }
 
@@ -49,11 +75,9 @@ namespace UESAN.VDI.API.Controllers
         [RoleAuthorize(RoleHelper.ADMIN_ROLE, RoleHelper.PROFESOR_ROLE)]
         public async Task<IActionResult> Update(int id, [FromBody] ProyectoDTO dto)
         {
-            // Solo permitir que el profesor asigne FechaFin
             var userRole = User.FindFirst(System.Security.Claims.ClaimTypes.Role)?.Value;
             if (!RoleHelper.IsProfesor(userRole))
             {
-                // Si no es profesor, no permitir modificar FechaFin
                 dto.FechaFin = null;
             }
             var updated = await _proyectosService.UpdateAsync(id, dto);
