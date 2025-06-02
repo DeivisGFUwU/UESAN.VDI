@@ -10,9 +10,11 @@ namespace UESAN.VDI.CORE.Core.Services
     public class ProfesoresService : IProfesoresService
     {
         private readonly IProfesoresRepository _profesoresRepository;
-        public ProfesoresService(IProfesoresRepository profesoresRepository)
+        private readonly IUsuariosRepository _usuariosRepository;
+        public ProfesoresService(IProfesoresRepository profesoresRepository, IUsuariosRepository usuariosRepository)
         {
             _profesoresRepository = profesoresRepository;
+            _usuariosRepository = usuariosRepository;
         }
 
         public async Task<List<ProfesorListDTO>> GetAllActivosAsync()
@@ -42,6 +44,10 @@ namespace UESAN.VDI.CORE.Core.Services
 
         public async Task<int> CreateAsync(ProfesorCreateDTO dto)
         {
+            // Validar que el usuario exista
+            var usuario = await _usuariosRepository.GetByIdAsync(dto.UsuarioId);
+            if (usuario == null)
+                throw new System.Exception($"No existe un usuario con el id {dto.UsuarioId}");
             var profesor = new Profesores
             {
                 UsuarioId = dto.UsuarioId,

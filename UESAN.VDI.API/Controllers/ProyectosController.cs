@@ -40,8 +40,9 @@ namespace UESAN.VDI.API.Controllers
         [RoleAuthorize(RoleHelper.ADMIN_ROLE)]
         public async Task<IActionResult> Create([FromBody] ProyectoCreateDTO dto)
         {
-            // No asignar FechaFin, ya no existe en el DTO
-            var id = await _proyectosService.CreateAsync(dto);
+            // Obtener el ID del usuario autenticado (admin)
+            var adminCrea = int.Parse(User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value ?? "0");
+            var id = await _proyectosService.CreateAsync(dto, adminCrea);
             return CreatedAtAction(nameof(GetById), new { id }, dto);
         }
 

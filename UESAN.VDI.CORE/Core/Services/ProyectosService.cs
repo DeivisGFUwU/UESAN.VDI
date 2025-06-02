@@ -10,9 +10,12 @@ namespace UESAN.VDI.CORE.Core.Services
     public class ProyectosService : IProyectosService
     {
         private readonly IProyectosRepository _proyectosRepository;
-        public ProyectosService(IProyectosRepository proyectosRepository)
+        private readonly IUsuariosRepository _usuariosRepository;
+
+        public ProyectosService(IProyectosRepository proyectosRepository, IUsuariosRepository usuariosRepository)
         {
             _proyectosRepository = proyectosRepository;
+            _usuariosRepository = usuariosRepository;
         }
 
         public async Task<List<ProyectoListDTO>> GetAllAsync()
@@ -43,8 +46,13 @@ namespace UESAN.VDI.CORE.Core.Services
             };
         }
 
-        public async Task<int> CreateAsync(ProyectoCreateDTO dto)
+        public async Task<int> CreateAsync(ProyectoCreateDTO dto, int adminCrea)
         {
+            // Validar que el usuario adminCrea existe y está activo
+            var usuario = await _usuariosRepository.GetByIdAsync(adminCrea);
+            if (usuario == null)
+                throw new System.Exception($"No existe un usuario activo con el id {adminCrea}");
+
             var proyecto = new Proyectos
             {
                 Titulo = dto.Titulo,
@@ -52,7 +60,8 @@ namespace UESAN.VDI.CORE.Core.Services
                 FechaInicio = dto.FechaInicio,
                 Estatus = dto.Estatus,
                 Recomendado = dto.Recomendado,
-                LineaId = dto.LineaId
+                LineaId = dto.LineaId,
+                AdminCrea = adminCrea
             };
             return await _proyectosRepository.CreateAsync(proyecto);
         }

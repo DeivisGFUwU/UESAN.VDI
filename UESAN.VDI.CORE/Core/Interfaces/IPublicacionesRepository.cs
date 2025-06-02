@@ -10,5 +10,6 @@ namespace UESAN.VDI.CORE.Core.Interfaces
         Task<Publicaciones?> GetByIdAsync(int id);
         Task<int> CreateAsync(Publicaciones publicacion);
         Task<bool> UpdateAsync(Publicaciones publicacion);
+        Task<bool> SoftDeleteAsync(int id);
     }
 }

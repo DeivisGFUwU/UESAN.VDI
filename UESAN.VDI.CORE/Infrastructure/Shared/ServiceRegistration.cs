@@ -21,7 +21,12 @@ namespace UESAN.VDI.CORE.Infrastructure.Shared
             services.AddTransient<IUsuariosRepository, UsuariosRepository>();
             services.AddTransient<IUsuariosService, UsuariosService>();
             services.AddTransient<IProfesoresRepository, ProfesoresRepository>();
-            services.AddTransient<IProfesoresService, ProfesoresService>();
+            services.AddTransient<IProfesoresService, ProfesoresService>((provider) =>
+            {
+                var profesoresRepo = provider.GetRequiredService<IProfesoresRepository>();
+                var usuariosRepo = provider.GetRequiredService<IUsuariosRepository>();
+                return new ProfesoresService(profesoresRepo, usuariosRepo);
+            });
             services.AddTransient<IProyectosRepository, ProyectosRepository>();
             services.AddTransient<IProyectosService, ProyectosService>();
             services.AddTransient<IPublicacionesRepository, PublicacionesRepository>();

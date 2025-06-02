@@ -10,5 +10,6 @@ namespace UESAN.VDI.CORE.Core.Interfaces
         Task<AutorPublicacionDTO?> GetByIdAsync(int id);
         Task<int> CreateAsync(AutorPublicacionCreateDTO dto);
         Task<bool> UpdateAsync(int id, AutorPublicacionDTO dto);
+        Task<bool> SoftDeleteAsync(int id); // Agregado para soft delete
     }
 }

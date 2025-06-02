@@ -11,5 +11,6 @@ namespace UESAN.VDI.CORE.Core.Interfaces
         Task<Revistas?> GetByIssnAsync(string issn, bool includeInactive = false);
         Task<string> CreateAsync(Revistas revista);
         Task<bool> UpdateAsync(Revistas revista);
+        Task<bool> SoftDeleteAsync(string issn);
     }
 }

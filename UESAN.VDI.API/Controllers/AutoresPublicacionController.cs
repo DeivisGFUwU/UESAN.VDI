@@ -53,5 +53,16 @@ namespace UESAN.VDI.API.Controllers
                 return NotFound();
             return NoContent();
         }
+
+        // Soft Delete
+        [HttpDelete("{id}")]
+        [RoleAuthorize(RoleHelper.ADMIN_ROLE)]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var deleted = await _service.SoftDeleteAsync(id);
+            if (!deleted)
+                return NotFound();
+            return NoContent();
+        }
     }
 }

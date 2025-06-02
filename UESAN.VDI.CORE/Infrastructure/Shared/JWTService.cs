@@ -29,10 +29,11 @@ namespace UESAN.VDI.CORE.Infrastructure.Shared
             var header = new JwtHeader(sc);
 
             var claims = new[] {
-                 new Claim(ClaimTypes.Name, (user.Nombre + "" + user.Apellido)),
+                 new Claim(ClaimTypes.Name, (user.Nombre + " " + user.Apellido)),
                  new Claim(ClaimTypes.GivenName, user.Nombre),
                  new Claim(ClaimTypes.Email, user.Correo),
-                 new Claim(ClaimTypes.Role, user.RoleId.ToString()), // Cambiado para ser compatible con RoleAuthorizeAttribute y RoleHelper
+                 new Claim(ClaimTypes.Role, user.RoleId.ToString()),
+                 new Claim(ClaimTypes.NameIdentifier, user.UsuarioId.ToString()), // <-- Asegura que este claim esté presente
                  new Claim("UserId",user.UsuarioId.ToString()),
              };
 

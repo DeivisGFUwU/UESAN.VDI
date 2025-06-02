@@ -179,8 +179,7 @@ namespace UESAN.VDI.CORE.Core.Services
 
         public async Task<bool> SoftDeleteAsync(int id)
         {
-            // No hay campo Activo/IsActive en Publicaciones, así que solo plantilla
-            return false;
+            return await _publicacionesRepository.SoftDeleteAsync(id);
         }
 
         public async Task<bool> SoftDeleteValidatedAsync(int id, string? userRole, string? userId)
@@ -194,7 +193,7 @@ namespace UESAN.VDI.CORE.Core.Services
                 if (profesor == null || profesor.UsuarioId != usuarioId)
                     return false;
             }
-            return false;
+            return await _publicacionesRepository.SoftDeleteAsync(id);
         }
     }
 }

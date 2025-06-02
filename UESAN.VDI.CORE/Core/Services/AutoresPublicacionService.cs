@@ -61,5 +61,10 @@ namespace UESAN.VDI.CORE.Core.Services
             entity.PorcentajeParticipacion = dto.PorcentajeParticipacion;
             return await _repository.UpdateAsync(entity);
         }
+
+        public async Task<bool> SoftDeleteAsync(int id)
+        {
+            return await _repository.SoftDeleteAsync(id);
+        }
     }
 }

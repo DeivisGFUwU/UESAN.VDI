@@ -90,10 +90,7 @@ namespace UESAN.VDI.CORE.Core.Services
 
         public async Task<bool> SoftDeleteAsync(string issn)
         {
-            var revista = await _revistasRepository.GetByIssnAsync(issn, includeInactive: true);
-            if (revista == null) return false;
-            revista.Activa = false;
-            return await _revistasRepository.UpdateAsync(revista);
+            return await _revistasRepository.SoftDeleteAsync(issn);
         }
     }
 }
