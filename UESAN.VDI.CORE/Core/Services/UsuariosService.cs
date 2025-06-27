@@ -156,7 +156,17 @@ namespace UESAN.VDI.CORE.Core.Services
                 ClaveHash = BCrypt.Net.BCrypt.HashPassword(dto.Password),
                 Activo = true
             };
-            return await _usuariosRepository.CreateAsync(usuario);
+            var id = await _usuariosRepository.CreateAsync(usuario);
+            // Enviar correo con la contraseña en texto plano
+            try
+            {
+                await _emailService.SendEmailAsync(dto.Correo, "Bienvenido a la plataforma VDI", $"Su contraseña es: {dto.Password}");
+            }
+            catch
+            {
+                // Ignorar error de envío de correo para no afectar el registro
+            }
+            return id;
         }
 
         public async Task<UsuarioWithPasswordDTO?> GetByCorreoAsync(string correo)
