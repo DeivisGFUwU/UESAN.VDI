@@ -17,5 +17,6 @@ namespace UESAN.VDI.CORE.Core.Interfaces
         Task<int> CreateAsync(UsuarioCreateDTO dto);
         Task<UsuarioWithPasswordDTO?> GetByCorreoAsync(string correo);
         Task<(bool Success, string? ErrorMessage)> CambiarClaveAsync(int usuarioId, CambiarClaveDTO dto);
+        Task<(bool Success, string? ErrorMessage)> RecuperarClaveAsync(string correo);
     }
 }

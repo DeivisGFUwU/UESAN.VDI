@@ -19,7 +19,14 @@ namespace UESAN.VDI.CORE.Infrastructure.Shared
 
             services.AddTransient<IJWTService, JWTService>();
             services.AddTransient<IUsuariosRepository, UsuariosRepository>();
-            services.AddTransient<IUsuariosService, UsuariosService>();
+            services.AddTransient<IUsuariosService, UsuariosService>((provider) =>
+            {
+                var usuariosRepo = provider.GetRequiredService<IUsuariosRepository>();
+                var profesoresRepo = provider.GetRequiredService<IProfesoresRepository>();
+                var jwtService = provider.GetRequiredService<IJWTService>();
+                var emailService = provider.GetRequiredService<IEmailService>();
+                return new UsuariosService(usuariosRepo, profesoresRepo, jwtService, emailService);
+            });
             services.AddTransient<IProfesoresRepository, ProfesoresRepository>();
             services.AddTransient<IProfesoresService, ProfesoresService>((provider) =>
             {

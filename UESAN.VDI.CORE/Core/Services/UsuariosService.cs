@@ -14,12 +14,14 @@ namespace UESAN.VDI.CORE.Core.Services
         private readonly IUsuariosRepository _usuariosRepository;
         private readonly IProfesoresRepository _profesoresRepository;
         private readonly IJWTService _jwtService;
+        private readonly IEmailService _emailService;
 
-        public UsuariosService(IUsuariosRepository usuariosRepository, IProfesoresRepository profesoresRepository, IJWTService jwtService)
+        public UsuariosService(IUsuariosRepository usuariosRepository, IProfesoresRepository profesoresRepository, IJWTService jwtService, IEmailService emailService)
         {
             _usuariosRepository = usuariosRepository;
             _profesoresRepository = profesoresRepository;
             _jwtService = jwtService;
+            _emailService = emailService;
         }
 
         public async Task<UsuarioSignInResponseDTO?> SignInAsync(UsuarioSignInRequestDTO dto)
@@ -189,6 +191,32 @@ namespace UESAN.VDI.CORE.Core.Services
             
             if (!updated)
                 return (false, "Error al actualizar la contraseña");
+
+            return (true, null);
+        }
+
+        public async Task<(bool Success, string? ErrorMessage)> RecuperarClaveAsync(string correo)
+        {
+            var usuario = await _usuariosRepository.GetByCorreoAsync(correo);
+            if (usuario == null)
+                return (false, "Si el correo existe, se han enviado instrucciones para recuperar la contraseña.");
+
+            // Generar nueva contraseña temporal
+            var nuevaClave = Guid.NewGuid().ToString("N").Substring(0, 10) + "*aA1";
+            usuario.ClaveHash = BCrypt.Net.BCrypt.HashPassword(nuevaClave);
+            var updated = await _usuariosRepository.UpdateAsync(usuario);
+            if (!updated)
+                return (false, "No se pudo actualizar la contraseña. Intente nuevamente.");
+
+            // Enviar correo con la nueva contraseña
+            try
+            {
+                await _emailService.SendEmailAsync(usuario.Correo, "Recuperación de contraseña", $"Su nueva contraseña temporal es: {nuevaClave}");
+            }
+            catch
+            {
+                return (false, "No se pudo enviar el correo de recuperación. Contacte al administrador.");
+            }
 
             return (true, null);
         }

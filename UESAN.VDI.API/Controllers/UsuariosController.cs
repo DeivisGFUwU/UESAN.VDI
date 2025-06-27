@@ -36,6 +36,16 @@ namespace UESAN.VDI.API.Controllers
             return CreatedAtAction(nameof(GetById), new { id }, dto);
         }
 
+        [HttpPost("registrar")]
+        [AllowAnonymous]
+        public async Task<IActionResult> Registrar([FromBody] UsuarioCreateDTO dto)
+        {
+            // Forzar el rol a usuario común (por ejemplo, RoleId = 3)
+            dto.RoleId = 3;
+            var id = await _usuariosService.CreateAsync(dto);
+            return CreatedAtAction(nameof(GetById), new { id }, dto);
+        }
+
         [HttpGet]
         [RoleAuthorize(RoleHelper.ADMIN_ROLE)]
         public async Task<IActionResult> GetAllActivos()
@@ -84,6 +94,14 @@ namespace UESAN.VDI.API.Controllers
                 return BadRequest(errorMessage);
                 
             return Ok("Contraseña actualizada correctamente");
+        }
+
+        [HttpPost("recuperar-clave")]
+        [AllowAnonymous]
+        public async Task<IActionResult> RecuperarClave([FromBody] RecuperarClaveDTO dto)
+        {
+            await _usuariosService.RecuperarClaveAsync(dto.Correo);
+            return Ok("Si el correo existe, se han enviado instrucciones para recuperar la contraseña.");
         }
     }
 }

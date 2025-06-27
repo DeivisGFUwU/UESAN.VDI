@@ -50,4 +50,9 @@ namespace UESAN.VDI.CORE.Core.DTOs
         public string ClaveActual { get; set; } = null!;
         public string ClaveNueva { get; set; } = null!;
     }
+
+    public class RecuperarClaveDTO
+    {
+        public string Correo { get; set; } = null!;
+    }
 }
