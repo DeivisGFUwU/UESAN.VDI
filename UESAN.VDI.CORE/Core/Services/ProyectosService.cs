@@ -90,5 +90,23 @@ namespace UESAN.VDI.CORE.Core.Services
             proyecto.Activo = false;
             return await _proyectosRepository.UpdateAsync(proyecto);
         }
+
+        public async Task<(int Created, int Failed)> CrearMasivoAsync(List<ProyectoCreateDTO> proyectos, int adminCrea)
+        {
+            int created = 0, failed = 0;
+            foreach (var dto in proyectos)
+            {
+                try
+                {
+                    await CreateAsync(dto, adminCrea);
+                    created++;
+                }
+                catch
+                {
+                    failed++;
+                }
+            }
+            return (created, failed);
+        }
     }
 }

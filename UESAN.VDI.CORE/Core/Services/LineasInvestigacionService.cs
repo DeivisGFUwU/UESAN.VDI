@@ -70,5 +70,11 @@ namespace UESAN.VDI.CORE.Core.Services
         {
             await _lineasInvestigacionRepository.DeleteLineasInvestigacion(id);
         }
+
+        // Get all LineasInvestigacion asynchronously
+        public async Task<List<LineasInvestigacionDTO>> GetAllAsync()
+        {
+            return await GetlineasInvestigacion();
+        }
     }
 }

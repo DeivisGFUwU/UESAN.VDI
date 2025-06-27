@@ -9,5 +9,6 @@ namespace UESAN.VDI.CORE.Core.Interfaces
         Task<LineasInvestigacionDTO?> GetLineasInvestigacionById(int id);
         Task<bool> UpdateLineasInvestigacion(LineasInvestigacionListDTO lineasInvestigacionDto);
         Task DeleteLineasInvestigacion(int id);
+        Task<List<LineasInvestigacionDTO>> GetAllAsync();
     }
 }
