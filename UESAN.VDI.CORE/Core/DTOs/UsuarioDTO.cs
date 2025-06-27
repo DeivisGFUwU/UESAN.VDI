@@ -44,4 +44,10 @@ namespace UESAN.VDI.CORE.Core.DTOs
         public int RoleId { get; set; }
         public string Password { get; set; } = null!;
     }
+
+    public class CambiarClaveDTO
+    {
+        public string ClaveActual { get; set; } = null!;
+        public string ClaveNueva { get; set; } = null!;
+    }
 }

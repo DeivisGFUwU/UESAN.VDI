@@ -11,5 +11,6 @@ namespace UESAN.VDI.CORE.Core.Interfaces
         Task<int> CreateAsync(ProyectoCreateDTO dto, int adminCrea);
         Task<bool> UpdateAsync(int id, ProyectoDTO dto);
         Task<bool> SoftDeleteAsync(int id);
+        Task<(int Created, int Failed)> CrearMasivoAsync(List<ProyectoCreateDTO> proyectos, int adminCrea);
     }
 }

@@ -4,6 +4,9 @@ using System.Threading.Tasks;
 using UESAN.VDI.CORE.Core.DTOs;
 using UESAN.VDI.CORE.Core.Interfaces;
 using UESAN.VDI.CORE.Core.Helpers;
+using OfficeOpenXml; // Necesitas instalar EPPlus
+using System.Collections.Generic;
+using System;
 
 namespace UESAN.VDI.API.Controllers
 {
@@ -67,6 +70,71 @@ namespace UESAN.VDI.API.Controllers
             if (!deleted)
                 return NotFound();
             return NoContent();
+        }
+
+        // PUT: api/Profesores/reactivar/{id}
+        [HttpPut("reactivar/{id}")]
+        [RoleAuthorize(RoleHelper.ADMIN_ROLE)]
+        public async Task<IActionResult> Reactivar(int id)
+        {
+            var result = await _profesoresService.ReactivateAsync(id);
+            if (!result)
+                return NotFound();
+            return Ok();
+        }
+
+        // POST: api/Profesores/crear-profesor-usuario
+        [HttpPost("crear-profesor-usuario")]
+        [RoleAuthorize(RoleHelper.ADMIN_ROLE)]
+        public async Task<IActionResult> CrearProfesorConUsuario([FromBody] ProfesorUsuarioCreateDTO dto)
+        {
+            var (success, errorMessage) = await _profesoresService.CrearProfesorConUsuarioDebugAsync(dto);
+            if (!success)
+                return BadRequest(errorMessage ?? "No se pudo crear el profesor y usuario. Verifique los datos.");
+            return Ok();
+        }
+
+        // POST: api/Profesores/crear-profesores-usuarios-masivo
+        [HttpPost("crear-profesores-usuarios-masivo")]
+        [RoleAuthorize(RoleHelper.ADMIN_ROLE)]
+        public async Task<IActionResult> CrearProfesoresConUsuariosMasivo([FromBody] List<ProfesorUsuarioCreateDTO> dtos)
+        {
+            var resultado = await _profesoresService.CrearProfesoresConUsuariosMasivoAsync(dtos);
+            return Ok(resultado);
+        }
+
+        // POST: api/Profesores/crear-profesores-usuarios-masivo-excel
+        [HttpPost("crear-profesores-usuarios-masivo-excel")]
+        [RoleAuthorize(RoleHelper.ADMIN_ROLE)]
+        public async Task<IActionResult> CrearProfesoresConUsuariosMasivoExcel([FromForm] IFormFile file)
+        {
+            if (file == null || file.Length == 0)
+                return BadRequest("No se ha proporcionado un archivo válido.");
+            try
+            {
+                using var package = new ExcelPackage(file.OpenReadStream());
+                var worksheet = package.Workbook.Worksheets[0];
+                var profesores = new List<ProfesorUsuarioCreateDTO>();
+                for (int row = 2; row <= worksheet.Dimension.End.Row; row++)
+                {
+                    var profesor = new ProfesorUsuarioCreateDTO
+                    {
+                        Nombre = worksheet.Cells[row, 1].Text,
+                        Apellido = worksheet.Cells[row, 2].Text,
+                        Correo = worksheet.Cells[row, 3].Text,
+                        RoleId = int.TryParse(worksheet.Cells[row, 4].Text, out int roleId) ? roleId : 0,
+                        Departamento = worksheet.Cells[row, 5].Text,
+                        Categoria = worksheet.Cells[row, 6].Text
+                    };
+                    profesores.Add(profesor);
+                }
+                var resultado = await _profesoresService.CrearProfesoresConUsuariosMasivoAsync(profesores);
+                return Ok(resultado);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Error al procesar el archivo: {ex.Message}");
+            }
         }
     }
 }

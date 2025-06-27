@@ -20,7 +20,19 @@ builder.Services.AddTransient<ILineasInvestigacionRepository, LineasInvestigacio
 
 
 builder.Services.AddSharedInfrastructure(_configuration);
+//Add cors policy
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(builder =>
+    {
+        var frontendUrl = _configuration.GetValue<string>("FrontendUrl");
+        builder//WithOrigins(frontendUrl)
+                .AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader();
+    });
 
+});
 
 builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
@@ -35,6 +47,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseAuthorization();
+
+app.UseCors(); // Use CORS policy
 
 app.MapControllers();
 

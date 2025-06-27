@@ -25,7 +25,9 @@ namespace UESAN.VDI.CORE.Infrastructure.Shared
             {
                 var profesoresRepo = provider.GetRequiredService<IProfesoresRepository>();
                 var usuariosRepo = provider.GetRequiredService<IUsuariosRepository>();
-                return new ProfesoresService(profesoresRepo, usuariosRepo);
+                var usuariosService = provider.GetRequiredService<IUsuariosService>();
+                var emailService = provider.GetRequiredService<IEmailService>();
+                return new ProfesoresService(profesoresRepo, usuariosRepo, usuariosService, emailService);
             });
             services.AddTransient<IProyectosRepository, ProyectosRepository>();
             services.AddTransient<IProyectosService, ProyectosService>();
@@ -43,6 +45,7 @@ namespace UESAN.VDI.CORE.Infrastructure.Shared
             services.AddTransient<ISesionChatService, SesionChatService>();
             services.AddTransient<IMensajeChatRepository, MensajeChatRepository>();
             services.AddTransient<IMensajeChatService, MensajeChatService>();
+            services.AddTransient<IEmailService, SmtpEmailService>();
 
             var issuer = _config["JWTSettings:Issuer"];
             var audience = _config["JWTSettings:Audience"];

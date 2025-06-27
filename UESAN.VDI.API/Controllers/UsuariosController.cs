@@ -73,5 +73,17 @@ namespace UESAN.VDI.API.Controllers
                 return NotFound();
             return NoContent();
         }
+
+        [HttpPut("cambiar-clave")]
+        public async Task<IActionResult> CambiarClave([FromBody] CambiarClaveDTO dto)
+        {
+            var usuarioId = int.Parse(User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value ?? "0");
+            var (success, errorMessage) = await _usuariosService.CambiarClaveAsync(usuarioId, dto);
+            
+            if (!success)
+                return BadRequest(errorMessage);
+                
+            return Ok("Contraseña actualizada correctamente");
+        }
     }
 }

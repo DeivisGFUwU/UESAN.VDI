@@ -15,5 +15,7 @@ namespace UESAN.VDI.CORE.Core.Interfaces
         Task<bool> ReactivateAsync(int usuarioId);
         Task<bool> SoftDeleteAsync(int usuarioId);
         Task<int> CreateAsync(UsuarioCreateDTO dto);
+        Task<UsuarioWithPasswordDTO?> GetByCorreoAsync(string correo);
+        Task<(bool Success, string? ErrorMessage)> CambiarClaveAsync(int usuarioId, CambiarClaveDTO dto);
     }
 }

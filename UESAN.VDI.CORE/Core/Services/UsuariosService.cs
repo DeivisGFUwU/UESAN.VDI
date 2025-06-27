@@ -143,17 +143,54 @@ namespace UESAN.VDI.CORE.Core.Services
 
         public async Task<int> CreateAsync(UsuarioCreateDTO dto)
         {
+            var correoVerificado = dto.Correo.EndsWith("@esan.edu.pe", StringComparison.OrdinalIgnoreCase);
             var usuario = new Usuarios
             {
                 Nombre = dto.Nombre,
                 Apellido = dto.Apellido,
                 Correo = dto.Correo,
                 RoleId = dto.RoleId,
-                CorreoVerificado = false,
+                CorreoVerificado = correoVerificado,
                 ClaveHash = BCrypt.Net.BCrypt.HashPassword(dto.Password),
                 Activo = true
             };
             return await _usuariosRepository.CreateAsync(usuario);
+        }
+
+        public async Task<UsuarioWithPasswordDTO?> GetByCorreoAsync(string correo)
+        {
+            var user = await _usuariosRepository.GetByCorreoAsync(correo);
+            if (user == null) return null;
+            // Obtener la contraseña en texto plano si está disponible (para prácticas)
+            // Aquí asumimos que el campo ClaveHash almacena la contraseña en texto plano para prácticas
+            return new UsuarioWithPasswordDTO
+            {
+                UsuarioId = user.UsuarioId,
+                Nombre = user.Nombre,
+                Apellido = user.Apellido,
+                Correo = user.Correo,
+                Password = user.ClaveHash // Para prácticas, guardar la contraseña en texto plano aquí
+            };
+        }
+
+        public async Task<(bool Success, string? ErrorMessage)> CambiarClaveAsync(int usuarioId, CambiarClaveDTO dto)
+        {
+            var usuario = await _usuariosRepository.GetByIdAsync(usuarioId);
+            if (usuario == null)
+                return (false, "Usuario no encontrado");
+
+            // Verificar la contraseña actual
+            if (!BCrypt.Net.BCrypt.Verify(dto.ClaveActual, usuario.ClaveHash))
+                return (false, "La contraseña actual es incorrecta");
+
+            // Actualizar a la nueva contraseña
+            usuario.ClaveHash = BCrypt.Net.BCrypt.HashPassword(dto.ClaveNueva);
+            var updated = await _usuariosRepository.UpdateAsync(usuario);
+            
+            if (!updated)
+                return (false, "Error al actualizar la contraseña");
+
+            return (true, null);
         }
     }
 }

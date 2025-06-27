@@ -11,5 +11,10 @@ namespace UESAN.VDI.CORE.Core.Interfaces
         Task<int> CreateAsync(ProfesorCreateDTO dto);
         Task<bool> UpdateAsync(int id, ProfesorDTO dto);
         Task<bool> SoftDeleteAsync(int id);
+        Task<bool> ReactivateAsync(int id);
+        Task<int> CrearMasivoAsync(List<ProfesorCreateDTO> profesores);
+        Task<bool> CrearProfesorConUsuarioAsync(ProfesorUsuarioCreateDTO dto);
+        Task<ProfesoresMasivoResultadoDTO> CrearProfesoresConUsuariosMasivoAsync(List<ProfesorUsuarioCreateDTO> dtos);
+        Task<(bool Success, string? ErrorMessage)> CrearProfesorConUsuarioDebugAsync(ProfesorUsuarioCreateDTO dto);
     }
 }
