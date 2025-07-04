@@ -40,8 +40,8 @@ namespace UESAN.VDI.API.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Registrar([FromBody] UsuarioCreateDTO dto)
         {
-            // Forzar el rol a usuario común (por ejemplo, RoleId = 3)
-            dto.RoleId = 3;
+            // Forzar el rol a usuario común (por ejemplo, RoleId = 1)
+            dto.RoleId = 1;
             var id = await _usuariosService.CreateAsync(dto);
             return CreatedAtAction(nameof(GetById), new { id }, dto);
         }

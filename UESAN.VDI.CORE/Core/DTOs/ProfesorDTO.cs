@@ -21,6 +21,7 @@ namespace UESAN.VDI.CORE.Core.DTOs
     public class ProfesorListDTO
     {
         public int ProfesorId { get; set; }
+        public int UsuarioId { get; set; }
         public string? Departamento { get; set; }
         public string? Categoria { get; set; }
     }

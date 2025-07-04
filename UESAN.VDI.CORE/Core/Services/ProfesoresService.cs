@@ -29,6 +29,7 @@ namespace UESAN.VDI.CORE.Core.Services
             return profesores.Select(p => new ProfesorListDTO
             {
                 ProfesorId = p.ProfesorId,
+                UsuarioId = p.UsuarioId, 
                 Departamento = p.Departamento,
                 Categoria = p.Categoria
             }).ToList();
