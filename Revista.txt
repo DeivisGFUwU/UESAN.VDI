@@ -1,0 +1,64 @@
+CREATE DATABASE Revistas
+GO
+USE [Revistas]
+GO
+
+
+-- Tabla principal: revistas
+CREATE TABLE revistas (
+    id_revista INT IDENTITY(1,1) PRIMARY KEY,
+    issn VARCHAR(30),
+    nombre VARCHAR(255),
+    pais VARCHAR(100),
+    jif VARCHAR(50),
+    posicion_autor VARCHAR(50),
+    coautoria_esan VARCHAR(50)
+);
+
+-- Tabla de indexaciones y cuartiles
+CREATE TABLE revista_indexaciones (
+    id INT IDENTITY(1,1) PRIMARY KEY,
+    id_revista INT FOREIGN KEY REFERENCES revistas(id_revista),
+    indexacion VARCHAR(50),      -- Ej: SCOPUS, WoS ESCi
+    cuartil VARCHAR(10),         -- Ej: Q1, Q2, etc.
+    sistema VARCHAR(50)          -- Ej: WoS (Q), SCOPUS
+);
+
+-- Tabla de listas reconocidas
+CREATE TABLE revista_listas_reconocidas (
+    id INT IDENTITY(1,1) PRIMARY KEY,
+    id_revista INT FOREIGN KEY REFERENCES revistas(id_revista),
+    lista VARCHAR(50),           -- Ej: AJG, CNRS, ABDC
+    existe BIT,                  -- 1 = sí, 0 = no
+    categoria VARCHAR(10),       -- A, B, C, etc.
+    fuente VARCHAR(50)           -- Ej: AJG (S), CNRS (S)
+);
+
+-- Tabla de flags y etiquetas especiales
+CREATE TABLE revista_flags (
+    id INT IDENTITY(1,1) PRIMARY KEY,
+    id_revista INT FOREIGN KEY REFERENCES revistas(id_revista),
+    top50 BIT,
+    en_bealls_list BIT,
+    mdpi BIT,
+    insights BIT,
+    multiple BIT,
+    multidisciplinario_wos BIT,
+    multidisciplinario_scopus BIT,
+    multidisciplinario_general BIT,
+    especial_2_1_6b BIT,
+    scielo BIT,
+    wos_latam BIT,
+    al_menos_una_lista BIT,
+    solo_una_lista BIT,
+    ajg_4_estrella BIT,
+    ajg_existe BIT,
+    cnrs_existe BIT,
+    abdc_existe BIT,
+    wos_top_existe BIT,
+    wos_esci_existe BIT,
+    scopus_existe BIT,
+    solo_scielo_existe BIT,
+    latam_sin_esci_existe BIT,
+    esci_scielo_sin_scopus BIT
+);
